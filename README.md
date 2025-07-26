@@ -1,18 +1,98 @@
-# Análise de Dados de Bot com AWS
+# 🤖 Análise de Dados de Bot com AWS
+
+## 📚 Sobre o projeto
+Projeto desenvolvido como trabalho de conclusão do curso **Profissão Analista de Dados** da EBAC.  
+O objetivo foi coletar, armazenar e analisar mensagens enviadas por usuários em um grupo do Telegram, utilizando serviços da AWS para ingestão e persistência dos dados.
+
+---
 
 ## 🎯 Objetivo
-Explorar e analisar dados gerados por um bot utilizando serviços da AWS, com foco em identificar padrões, comportamento e desempenho.
+- Construir um pipeline simples de ingestão de dados em tempo real.
+- Explorar e analisar os dados para identificar padrões e horários de maior atividade.
+- Visualizar os insights de forma clara e didática.
 
-## 🛠 Tecnologias e ferramentas
-- AWS (especifique os serviços usados, ex: Lambda, S3, CloudWatch)
+---
+
+## 📦 Fonte – Dados Transacionais
+Utilizei o método `getUpdates` da API de bots do **Telegram** para capturar mensagens enviadas por usuários em um grupo.
+
+### 📌 Exemplo de dados recebidos (mock):
+```json
+{
+  "update_id": 123456,
+  "message": {
+    "message_id": 1,
+    "from": {
+      "id": 111,
+      "first_name": "João"
+    },
+    "chat": {
+      "id": -222,
+      "title": "Grupo de Teste"
+    },
+    "date": 1679845561,
+    "text": "Olá, tudo bem?"
+  }
+}
+```
+
+---
+
+## ☁ Pipeline de ingestão na AWS
+
+### ✏️ Função Lambda para salvar dados no S3
+```python
+import json
+import boto3
+import datetime
+
+def lambda_handler(event, context):
+    s3 = boto3.client('s3')
+    mensagem = json.loads(event['body'])
+
+    nome_arquivo = f"telegram_data_{datetime.datetime.now().isoformat()}.json"
+    s3.put_object(
+        Bucket='nome-do-bucket',
+        Key=nome_arquivo,
+        Body=json.dumps(mensagem)
+    )
+    return {'statusCode': 200, 'body': json.dumps('Mensagem salva com sucesso!')}
+```
+
+Esta função foi acionada via **API Gateway**, recebendo os dados em tempo real e salvando arquivos JSON no bucket S3.
+
+---
+
+## 🔍 Análise exploratória
+- Leitura dos arquivos JSON armazenados no S3.
+- Limpeza e padronização dos dados para facilitar a análise.
+- Criação de gráficos com **pandas**, **matplotlib** e **seaborn** para identificar padrões de comportamento e horários de maior atividade.
+
+---
+
+## ✨ Principais resultados
+- Identificação de períodos com maior volume de mensagens.
+- Organização dos dados para análises futuras.
+- Experiência prática de integração de APIs com AWS e análise de dados em Python.
+
+---
+
+## 📎 Notebook completo no Kaggle
+🔗 [Clique aqui para acessar](https://www.kaggle.com/code/elisdias/an-lise-de-dados-de-bot-com-aws)
+
+---
+
+## 🛠 Tecnologias e ferramentas utilizadas
+- AWS (Lambda, API Gateway, S3)
 - Python (pandas, boto3)
-- Ferramentas de visualização (ex: matplotlib, seaborn, Power BI)
+- Visualização: matplotlib, seaborn
+- Ambiente: Kaggle Notebooks
 
-## 🔍 Descrição do projeto
-Projeto desenvolvido em conjunto com a EBAC como Trabalho de Conclusão do curso **Profissão Analista de Dados**.
-Neste projeto, construí um pipeline completo utilizando serviços da AWS para capturar, processar e analisar mensagens enviadas por usuários em um grupo do Telegram. A arquitetura permite transformar dados transacionais (coletados via API de bot) em dados analíticos disponíveis para consulta via SQL no Amazon Athena.
+---
 
+## 📫 Contato
+Para saber mais ou colaborar, entre em contato pelo [LinkedIn](https://www.linkedin.com/in/elisangeladias-dados/).
 
-## ✨ Resultados
-- Dados organizados e visualizados para facilitar o entendimento do desempenho do bot.
-- Insights sobre horários de maior atividade e padrões de interação.
+---
+
+✨ *Projeto realizado como parte do curso Profissão Analista de Dados (EBAC).*
