@@ -9,7 +9,6 @@ O objetivo foi coletar, armazenar e analisar mensagens enviadas por usuários em
 ## 🎯 Objetivo
 - Construir um pipeline simples de ingestão de dados em tempo real.
 - Explorar e analisar os dados para identificar padrões e horários de maior atividade.
-- Visualizar os insights de forma clara e didática.
 
 ---
 
@@ -66,7 +65,6 @@ Esta função foi acionada via **API Gateway**, recebendo os dados em tempo real
 ## 🔍 Análise exploratória
 - Leitura dos arquivos JSON armazenados no S3.
 - Limpeza e padronização dos dados para facilitar a análise.
-- Criação de gráficos com **pandas**, **matplotlib** e **seaborn** para identificar padrões de comportamento e horários de maior atividade.
 
 ---
 
@@ -85,7 +83,6 @@ Esta função foi acionada via **API Gateway**, recebendo os dados em tempo real
 ## 🛠 Tecnologias e ferramentas utilizadas
 - AWS (Lambda, API Gateway, S3)
 - Python (pandas, boto3)
-- Visualização: matplotlib, seaborn
 - Ambiente: Kaggle Notebooks
 
 ---
